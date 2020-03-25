@@ -1,6 +1,5 @@
 package Uno;
 
-
 public class Card {
     private int cardNumber;
     private char cardColor;
