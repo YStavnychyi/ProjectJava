@@ -1,5 +1,6 @@
 package Uno;
 
+
 public class Card {
     private int cardNumber;
     private char cardColor;
@@ -8,19 +9,19 @@ public class Card {
         cardNumber = cNumber;
         cardColor = cColor;
     }
-    public int getCardNumber(){
+    public int numRet(){
         return cardNumber;
     }
-    public char getCardColor(){
+    public char colorRet(){
         return cardColor;
     }
-    public static char getCardColor(Card cards){
-        return cards.getCardColor();
+    public static char colorRet(Card cards){
+        return cards.colorRet();
     }
-    public static int getCardNumber(Card cards){
-        return cards.getCardNumber();
+    public static int numRet(Card cards){
+        return cards.numRet();
     }
-    @Override
+
     public String toString(){
         String cColor = null;
         String cNumber = null;
