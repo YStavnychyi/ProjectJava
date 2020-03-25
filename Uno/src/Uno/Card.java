@@ -8,4 +8,14 @@ public class Card {
         cardNumber = cNumber;
         cardColor = cColor;
     }
+    
+    public int numRet()
+    {
+    	return cardNumber;
+    }
+    
+    public char colorRet()
+    {
+    	return cardColor;
+    }
 }
