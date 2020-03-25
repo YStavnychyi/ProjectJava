@@ -16,6 +16,6 @@ public class Card {
     
     public char colorRet()
     {
-    	return cardColor;
+    	return cardColor; 
     }
 }

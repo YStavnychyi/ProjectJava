@@ -7,7 +7,7 @@ public class UnoApp {
 			CardManage c = new CardManage();		
 			c.printCards();
 			
-			
+			 
 	}
 
 }

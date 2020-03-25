@@ -38,7 +38,7 @@ public class CardManage {
 	{
 		for(Card l : card)
 		{
-			System.out.println("Numer:"+l.numRet()+"  Color:"+l.colorRet());
+			System.out.println("Numer:"+l.numRet()+"  Color:"+l.colorRet()); 
 		}
 	}
 	
