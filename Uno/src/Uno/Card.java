@@ -20,6 +20,7 @@ public class Card {
     public static int getCardNumber(Card cards){
         return cards.getCardNumber();
     }
+
     public String toString(){
         String cColor = null;
         String cNumber = null;
