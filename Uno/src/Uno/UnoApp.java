@@ -6,8 +6,9 @@ public class UnoApp {
 			System.out.println("Test");
 			CardManage c = new CardManage();		
 			c.printCards();
-			
-			 
+			c.cardData();
+			c.cRand();
+			c.cardData();
 	}
 
 }
