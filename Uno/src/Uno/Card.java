@@ -1,6 +1,6 @@
 package Uno;
 
-public class Card {
+public class Card implements Cloneable{
     private int cardNumber;
     private char cardColor;
     
@@ -50,4 +50,9 @@ public class Card {
         }
         return (cColor + " - " + cNumber);
     }
+    
+	public Object clone() throws CloneNotSupportedException
+	{
+		return super.clone();
+	}
 }
