@@ -20,6 +20,6 @@ public class UnoApp {
 			
 			c.cardData();
 			c.validCardAmount();
-	}
+	} 
 
 }

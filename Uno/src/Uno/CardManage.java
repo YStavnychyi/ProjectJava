@@ -107,7 +107,7 @@ public class CardManage{
 				}
 
 				fill_placed_notuse();
-	}
+	} 
 	
 	////////////////////END
 	
