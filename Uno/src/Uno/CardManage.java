@@ -101,6 +101,8 @@ public class CardManage{
 		//daje z kart ze tmp na karty dla graczy
 		int last_card = findLastAv() + 1;
 		int maxx=findFirstNotCard()+1;
+		if(maxx==0)
+			maxx=10;
 				for(int i=0;i<maxx;i++)
 				{
 					card[last_card+i] = (Card) placed_cards[i].clone();
@@ -199,6 +201,7 @@ public class CardManage{
 		
 			if(pos==9)
 			{
+				
 				addToPile();
 				cRand();
 			}
