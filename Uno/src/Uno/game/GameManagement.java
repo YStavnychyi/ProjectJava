@@ -25,7 +25,7 @@ public class GameManagement implements Runnable{
 	
 	
 	public GameManagement()
-	{
+	{ 
 		window = new AppWindow();
 		
 		tmp = ImagesLoader.loadImage("/+2.jpg");
