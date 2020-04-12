@@ -75,7 +75,7 @@ public class UnoApp {
 		
 		int currentPlayer = 1;
 		boolean uno = false;
-/*
+
 		do {//until the game has ended, do the following
 			while(currentPlayer == 1) {
 				skip = false;
@@ -92,7 +92,7 @@ public class UnoApp {
 				}
 			}
 		}
-*/		
+		
 	}
 	
 	public static Card wildColor(int cardNumber) {
@@ -119,12 +119,12 @@ public class UnoApp {
 		}
 		return new Card(cardNumber,color);
 	}
-/*	
+	
 	public static void printHand(Deal play, boolean drawCard, boolean uno, boolean unoCalled) {
 		int display = 0;
-		for(int x = 0; x < play.getSize(); x++) {
-			display = x + 1;
-			System.out.println(display + play.getCard(x));
+		for(int i = 0; i < play.getSize(); i++) {
+			display = i + 1;
+			System.out.println(display + ". " + play.getCard(i));
 		}
 		display++;
 		if(!drawCard) {
@@ -139,7 +139,7 @@ public class UnoApp {
             System.out.println("Uno Called");
         }
 	}
-*/	
+	
 	public static boolean checkUno(Deal play) {
         boolean uno = false;
         if (play.getSize() == 2) {
