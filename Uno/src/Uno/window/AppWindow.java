@@ -4,33 +4,25 @@ import java.awt.Canvas;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 
-enum GAME_SCREEN{
-	GAME,
-	MAIN,
-	SETTING
-};
 
 public class AppWindow{
 	private JFrame window;
 	private Canvas canvas;
 	
 	
-	private GAME_SCREEN game_screen;
-	
-	public AppWindow()
+	public AppWindow(int widht,int height)
 	{
-		game_screen=GAME_SCREEN.MAIN;
-		
 		
 		window =new JFrame("Uno - Project");
-		window.setSize(800, 600);
+		window.setSize(widht, height);
 		window.setLocationRelativeTo(null);
 		window.setResizable(false);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setVisible(true);
 		
 		canvas = new Canvas();
-		canvas.setPreferredSize(new Dimension(800,600));
+		canvas.setPreferredSize(new Dimension(widht,height));
+		canvas.setFocusable(false);//bez tego nie dziala input
 		
 		window.add(canvas);
 	}
@@ -40,12 +32,15 @@ public class AppWindow{
 		return canvas;
 	}
 	
-	public void render()
+	public JFrame windowRet()
 	{
-		if(game_screen==GAME_SCREEN.MAIN)
-		{
-			
-		}
+		return window;
+	}
+	
+	public void resizeWindow(int widht,int height)
+	{
+		window.setBounds(0, 0, widht, height);
+		canvas.setBounds(0, 0, widht, height);
 	}
 	
 	
