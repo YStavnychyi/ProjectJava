@@ -2,6 +2,8 @@ package Uno.window;
 
 import java.awt.Canvas;
 import java.awt.Dimension;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JFrame;
 
 
@@ -43,5 +45,9 @@ public class AppWindow{
 		canvas.setBounds(0, 0, widht, height);
 	}
 	
+	public void exitWindow()
+	{
+		window.dispatchEvent(new WindowEvent(window,WindowEvent.WINDOW_CLOSING));
+	}
 	
 }

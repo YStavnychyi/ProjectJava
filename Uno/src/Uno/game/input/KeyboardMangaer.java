@@ -26,15 +26,7 @@ public class KeyboardMangaer implements KeyListener{
 		int tmp = e.getKeyCode();
 		if(tmp<256)
 		{
-			if(!pressed == true)
-			{
 				keys[tmp]=true;
-				pressed = true;
-			}
-			else 
-			{
-				keys[tmp]=false;
-			}
 		}
 			
 	}
@@ -50,14 +42,23 @@ public class KeyboardMangaer implements KeyListener{
 	
 	public void update()
 	{
-		UP = (keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]);
-		DOWN = (keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]);
-		LEFT = (keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A]);
-		RIGHT = (keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]);
-		ENTER = keys[KeyEvent.VK_ENTER];
+		UP = (isKeyOnce(KeyEvent.VK_UP) || isKeyOnce(KeyEvent.VK_W));
+		DOWN = (isKeyOnce(KeyEvent.VK_DOWN) || isKeyOnce(KeyEvent.VK_S));
+		LEFT = (isKeyOnce(KeyEvent.VK_LEFT) || isKeyOnce(KeyEvent.VK_A));
+		RIGHT = (isKeyOnce(KeyEvent.VK_RIGHT) || isKeyOnce(KeyEvent.VK_D));
+		ENTER = isKeyOnce(KeyEvent.VK_ENTER);
 		
 	}
 	
+	private boolean isKeyOnce(int key)
+	{
+		if(keys[key]==true && pressed==false)
+		{
+			pressed = true;
+			return true;
+		}
+		else return false;
+	}
 	
 
 }

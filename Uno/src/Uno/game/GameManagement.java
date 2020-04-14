@@ -3,13 +3,9 @@ package Uno.game;
 import Uno.game.input.KeyboardMangaer;
 import Uno.window.*;
 import Uno.window.screens.*;
-
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
-
-import java.awt.image.BufferedImage;
 
 
 public class GameManagement implements Runnable{
@@ -63,6 +59,7 @@ public class GameManagement implements Runnable{
 		if(live==true)
 		{
 			live=false;
+			window.exitWindow();
 		try {
 			thread.join();
 		} catch (InterruptedException e) {

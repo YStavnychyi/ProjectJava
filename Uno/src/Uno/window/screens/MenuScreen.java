@@ -3,7 +3,6 @@ package Uno.window.screens;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.FontMetrics;
 import Uno.game.GameManagement;
 
 public class MenuScreen extends Screens{
@@ -11,20 +10,20 @@ public class MenuScreen extends Screens{
 	private int selected = 0;
 	private Font font;
 	private Color color[];
-	
-	private boolean pressed;
 	public MenuScreen(GameManagement gameManger) {
 		super(gameManger);
 		font = new Font("TimesRoman",Font.BOLD,50);
 		
 		color = new Color[3];
-		pressed = false;
 	}
 	
 	public void update() {
 		if(selected>0 && gameManger.getKeyManager().UP) selected--;
 		if(selected<2 && gameManger.getKeyManager().DOWN) selected++;
-		if(selected == 2 && gameManger.getKeyManager().ENTER) System.out.println("TMP EXIT TEST");
+		if(selected == 2 && gameManger.getKeyManager().ENTER) 
+			{
+				gameManger.stopThread();
+			}
 		
 		color[0] = Color.orange;
 		color[1] = Color.orange;
