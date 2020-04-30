@@ -1,12 +1,13 @@
 package Uno.window.screens;
 
 import java.awt.Graphics;
-
-import Uno.game.GameManagement;
+import Uno.game.handler.GameHandlerer;
+import Uno.window.ui.manager.UIManagerS;
 
 public abstract class Screens {
 	
 	private static Screens cScreen = null;
+	protected UIManagerS uiList;
 	
 	public static Screens getScreen()
 	{
@@ -22,10 +23,25 @@ public abstract class Screens {
 	
 	public abstract void render(Graphics g);
 	
-	protected GameManagement gameManger;
+	protected GameHandlerer gameH;
 	
-	public Screens(GameManagement gameManger)
+	public Screens(GameHandlerer gameH)
 	{
-		this.gameManger = gameManger;
+		this.gameH = gameH;
+		setWH();
 	}
+	
+	protected int widht,height;
+	
+	protected void setWH()
+	{
+		widht=gameH.getWidht();
+		height=gameH.getHeight();
+	}
+	
+	public UIManagerS getUIList()
+	{
+		return uiList;
+	}
+	
 }

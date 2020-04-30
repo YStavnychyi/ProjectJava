@@ -1,8 +1,12 @@
 package Uno.game;
 
-import Uno.game.input.KeyboardMangaer;
+import Uno.game.handler.GameHandlerer;
+import Uno.game.input.*;
 import Uno.window.*;
 import Uno.window.screens.*;
+
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
@@ -15,29 +19,42 @@ public class GameManagement implements Runnable{
 	private BufferStrategy buffer;//buffer do obrazow(3)
 	private Graphics g;//grafika na ktorej sie rysuje
 	private boolean live;//czy gra dziala 
-	private KeyboardMangaer keyM;
+	private KeyboardMangaer keyM;//klawiatura
+	private MouseManager mouseM;//myszka
+	private GameHandlerer gameH;//handlerer
 	
-	private Screens gameScreen;//okno do gry
-	private Screens menuScreen;//okno do gry
-	private Screens settingsScreen;//okno do gry
+	public Screens gameScreen;//okno do gry
+	public Screens menuScreen;//okno do gry
+	public Screens settingsScreen;//okno do gry
+	public Screens connectionScreen;//okno do polczen
 	
-	public int HEIGHT,WIDHT;
-	private int screenDimension;
+	private int HEIGHT,WIDHT;
 	
 	
 	public GameManagement()
 	{ 
-		
-		screenDimension=0;
-		ScreeDimSet(screenDimension);
+		WIDHT=800;
+		HEIGHT=600;
 		
 		keyM=new KeyboardMangaer();
+		mouseM=new MouseManager();
+	}
+	
+	private void setUp()
+	{
+		gameH = new GameHandlerer(this);
+		
 		window = new AppWindow(WIDHT,HEIGHT);//tworzone okno
 		window.windowRet().addKeyListener(keyM);
+		window.windowRet().addMouseListener(mouseM);
+		window.windowRet().addMouseMotionListener(mouseM);
+		window.canvasRet().addMouseListener(mouseM);
+		window.canvasRet().addMouseMotionListener(mouseM);
 		
-		menuScreen = new MenuScreen(this);//stworzenie okna na MENU
-		gameScreen = new GameScreen(this);//stworzenie okna na Gry
-		settingsScreen = new SettingsScreen(this);//stworzenie okna na ustawien
+		menuScreen = new MenuScreen(gameH);//stworzenie okna na MENU
+		gameScreen = new GameScreen(gameH);//stworzenie okna na Gry
+		settingsScreen = new SettingsScreen(gameH);//stworzenie okna na ustawien
+		connectionScreen = new ConnectionScreen(gameH);//stworzenie okna do polaczen do gier
 		
 		setCurrentScreen(menuScreen);//ustawienie ekranu na Menu
 	}
@@ -45,6 +62,7 @@ public class GameManagement implements Runnable{
 	public synchronized void startThread()
 	{
 		//do rozpoczecia Threta i gry
+		setUp();
 		if(live==false)
 		{
 			live=true;
@@ -92,7 +110,7 @@ public class GameManagement implements Runnable{
 	
 	private void update()
 	{
-		//Update rzeczy któe siê dziej¹ (zmiana pozycji itp
+		//Update rzeczy ktï¿½e siï¿½ dziejï¿½ (zmiana pozycji itp
 		keyM.update();
 		if(Screens.getScreen()!=null)
 			Screens.getScreen().update();
@@ -135,32 +153,16 @@ public class GameManagement implements Runnable{
 		}
 		stopThread();
 	}
-	
-	private void ScreeDimSet(int sd)
-	{
-		//Zmiana rozmiaru okna
-		switch(sd)
-		{
-		default:
-			WIDHT=800;
-			HEIGHT=600;
-			break;
-			
-		case -1:
-			WIDHT=640;
-			HEIGHT=480;
-			break;
-			
-		case 1:
-			WIDHT=1024;
-			HEIGHT=768;
-			break;
-		}
-	}
+
 	
 	public KeyboardMangaer getKeyManager()
 	{
 		return keyM;
+	}
+	
+	public MouseManager getMouseManager()
+	{
+		return mouseM;
 	}
 	
 	public void setCurrentScreen(Screens screen)
@@ -168,6 +170,39 @@ public class GameManagement implements Runnable{
 		Screens.setScreen(screen);
 	}
 	
+	public FontMetrics getFontMetrics(Font font)
+	{
+		return window.canvasRet().getFontMetrics(font);
+	}
 	
+	public int getWidth()
+	{
+		return WIDHT;
+	}
+	
+	public int getHeight()
+	{
+		return HEIGHT;
+	}
+	
+	public Screens getMenuScreen()
+	{
+		return menuScreen;
+	}
+	
+	public Screens getGameScreen()
+	{
+		return gameScreen;
+	}
+	
+	public Screens getConnectionScreen()
+	{
+		return connectionScreen;
+	}
+	
+	public Screens getSettingsScreen()
+	{
+		return settingsScreen;
+	}
 	
 }

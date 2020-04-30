@@ -2,15 +2,23 @@ package Uno.window.screens;
 
 import java.awt.Color;
 import java.awt.Graphics;
-
-import Uno.game.GameManagement;
+import Uno.game.handler.GameHandlerer;
+import Uno.window.ui.manager.UIManagerS;
 
 public class SettingsScreen extends Screens{
 
-	public SettingsScreen(GameManagement gameManger) {
-		super(gameManger);
+	public SettingsScreen(GameHandlerer gameH) {
+		super(gameH);
+		
+		uiList = new UIManagerS(gameH);
+		addComponents();
 	}
-
+	
+	private void addComponents()
+	{
+		
+	}
+	
 	public void update() {
 		
 	}

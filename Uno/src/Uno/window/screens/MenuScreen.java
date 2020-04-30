@@ -3,53 +3,80 @@ package Uno.window.screens;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import Uno.game.GameManagement;
+import Uno.game.handler.GameHandlerer;
+import Uno.window.ui.UIButton;
+import Uno.window.ui.UIClicker;
+import Uno.window.ui.manager.UIManagerS;
 
 public class MenuScreen extends Screens{
 	
-	private int selected = 0;
-	private Font font;
-	private Color color[];
-	public MenuScreen(GameManagement gameManger) {
-		super(gameManger);
-		font = new Font("TimesRoman",Font.BOLD,50);
+	private Font font = new Font("TimesRoman",Font.BOLD,50);
+	
+	public MenuScreen(GameHandlerer gameH) {
+		super(gameH);
 		
-		color = new Color[3];
+		uiList = new UIManagerS(gameH);
+		gameH.setUIM(uiList);
+		
+		addComponents();
 	}
 	
-	public void update() {
-		if(selected>0 && gameManger.getKeyManager().UP) selected--;
-		if(selected<2 && gameManger.getKeyManager().DOWN) selected++;
-		if(selected == 2 && gameManger.getKeyManager().ENTER) 
-			{
-				gameManger.stopThread();
-			}
+	private void addComponents()
+	{
+		Color bcolors[] = {Color.green,Color.white};
+		String text[] = {"Start","Settings","Exit"};
+		int wD[]= new int[3];
+		for(int i=0;i<wD.length;i++)
+			wD[i]=gameH.getFontMetrics(font).stringWidth(text[i]);
+		int hD=font.getSize();
 		
-		color[0] = Color.orange;
-		color[1] = Color.orange;
-		color[2] = Color.orange;
-		color[selected] = Color.white;
+		int x=gameH.getWidht()/2;
+		int y=gameH.getHeight()/2;
+		
+		uiList.addComponent(new UIButton(x-100,y-120,wD[0],hD,text[0],bcolors,font,new UIClicker() {
+
+			@Override
+			public void ClickAction() {
+				
+				gameH.setUIM(gameH.getGameM().getConnectionScreen().getUIList());
+				gameH.setCurrentScreen(gameH.getGameM().getConnectionScreen());
+				
+				
+			}}));
+		
+		uiList.addComponent(new UIButton(x-140,y,wD[1],hD,text[1],bcolors,font,new UIClicker() {
+
+			@Override
+			public void ClickAction() {
+				System.out.println("I am pressed");
+				
+			}}));
+		
+		uiList.addComponent(new UIButton(x-80,y+130,wD[2],hD,text[2],bcolors,font,new UIClicker() {
+
+			@Override
+			public void ClickAction() {
+				System.out.println("I am pressed");
+				
+			}}));
+	}
+	
+	public void update() {	
+		uiList.update();
 	}
 	public void render(Graphics g) {
 			g.setFont(font);
 			
+			//setWH(); //pamietac jezeli zmienny ekran dac w inne miejsce
+			
 			g.setColor(Color.red);
-			g.fillRect(0, 0, gameManger.WIDHT, gameManger.HEIGHT);
-			
-			g.setColor(color[0]);
-			g.drawRect(gameManger.WIDHT/2-150, gameManger.HEIGHT/2-150, 250, 80);
-			g.drawString("START", gameManger.WIDHT/2-110, gameManger.HEIGHT/2-90);
-			
-			g.setColor(color[1]);
-			g.drawRect(gameManger.WIDHT/2-150, gameManger.HEIGHT/2, 250, 80);
-			g.drawString("SETTINGS",gameManger.WIDHT/2-150, gameManger.HEIGHT/2+60);
-			
-			g.setColor(color[2]);
-			g.drawRect(gameManger.WIDHT/2-150, gameManger.HEIGHT/2+150, 250, 80);
-			g.drawString("EXIT",gameManger.WIDHT/2-80, gameManger.HEIGHT/2+210);
+			g.fillRect(0, 0, widht, height);
 			
 			g.setColor(Color.orange);
-			g.drawString("Uno", gameManger.WIDHT/2-80, 100);
+			g.drawString("Uno", widht/2-80, 100);
+
+			
+			uiList.render(g);
 	}
 
 }

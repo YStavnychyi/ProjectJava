@@ -2,23 +2,30 @@ package Uno.game.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import Uno.window.ui.manager.UIManagerS;
 
 public class KeyboardMangaer implements KeyListener{
 
 	private boolean keys[];
+	private boolean pressed[];
 	
 	public boolean UP,DOWN,LEFT,RIGHT,ENTER;
-	private boolean pressed;
+	private UIManagerS curUIM;
 
 	
 	public KeyboardMangaer()
 	{
 		keys=new boolean[256];
-		pressed=false;
+		pressed = new boolean[256];
+		for(int i=0;i<pressed.length;i++)
+			pressed[i]=false;
 	}
 	
 	public void keyTyped(KeyEvent e) {
-		
+		if(curUIM!=null)
+		{
+			curUIM.keyTyped(e);
+		}
 	}
 
 
@@ -36,8 +43,9 @@ public class KeyboardMangaer implements KeyListener{
 		if(tmp<256)
 		{
 			keys[tmp]=false;
+			pressed[tmp] = false;
 		}	
-		pressed = false;
+		
 	}
 	
 	public void update()
@@ -52,12 +60,17 @@ public class KeyboardMangaer implements KeyListener{
 	
 	private boolean isKeyOnce(int key)
 	{
-		if(keys[key]==true && pressed==false)
+		if(keys[key]==true && pressed[key]==false)
 		{
-			pressed = true;
+			pressed[key] = true;
 			return true;
 		}
 		else return false;
+	}
+	
+	public void setUIM(UIManagerS uim)
+	{
+		this.curUIM = uim;
 	}
 	
 
