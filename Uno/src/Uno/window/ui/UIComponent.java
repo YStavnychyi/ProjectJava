@@ -46,4 +46,11 @@ public abstract class UIComponent {
 	
 	public abstract void onKeyTyped(KeyEvent e);
 	
+	public void updatePosition(int x,int y)
+	{
+		this.x=x;
+		this.y=y;
+		this.hitbox=new Rectangle(x,y,width,height);
+	}
+	
 }

@@ -3,17 +3,32 @@ package Uno.window.screens;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
 import Uno.game.handler.GameHandlerer;
 import Uno.window.ui.UIButton;
+import Uno.window.ui.UIButtonImage;
 import Uno.window.ui.UIClicker;
 import Uno.window.ui.UITextEnter;
 import Uno.window.ui.manager.UIManagerS;
 
 public class ConnectionScreen extends Screens{
 
-	private Font font = new Font("TimesRoman",Font.BOLD,50);
+	private Font font = new Font("TimesRoman",Font.BOLD,30);
+	
+	private BufferedImage host[],connect[];
+	private UITextEnter textIP;
+	
 	public ConnectionScreen(GameHandlerer gameH) {
 		super(gameH);
+		
+		host = new BufferedImage[2];
+		host[0] = gameH.getButtonImage(200, 300, 200, 100);
+		host[1] = gameH.getButtonImage(400, 0, 200, 100);
+		
+		connect = new BufferedImage[2];
+		connect[0] = gameH.getButtonImage(200, 200, 200, 100);
+		connect[1] = gameH.getButtonImage(0, 300, 200, 100);
 		
 		uiList = new UIManagerS(gameH);
 		addComponents();
@@ -28,10 +43,12 @@ public class ConnectionScreen extends Screens{
 		int hD=font.getSize();
 		Color bcolors[] = {Color.green,Color.white};
 		
+		int w = host[0].getWidth(),h = host[0].getHeight();
+		
 		int x=gameH.getWidht()/2;
 		int y=gameH.getHeight()/2;
 		
-		uiList.addComponent(new UIButton(50,y-200,wD[0],hD,text[0],bcolors,font,new UIClicker() {
+		uiList.addComponent(new UIButtonImage(50,y-200,w,h,host,new UIClicker() {
 
 			@Override
 			public void ClickAction() {
@@ -40,7 +57,7 @@ public class ConnectionScreen extends Screens{
 				
 			}}));
 		
-		uiList.addComponent(new UIButton(50,y,wD[1],hD,text[1],bcolors,font,new UIClicker() {
+		uiList.addComponent(new UIButtonImage(50,y,w,h,connect,new UIClicker() {
 
 			@Override
 			public void ClickAction() {
@@ -57,8 +74,8 @@ public class ConnectionScreen extends Screens{
 				gameH.setCurrentScreen(gameH.getGameM().getMenuScreen());
 				
 			}}));
-		
-		uiList.addComponent(new UITextEnter(300,y,300,hD,font));
+		textIP=new UITextEnter(300,y+30,420,hD,font,24);
+		uiList.addComponent(textIP);
 	}
 	
 	@Override
@@ -72,8 +89,8 @@ public class ConnectionScreen extends Screens{
 		
 		
 		
-		g.setColor(Color.orange);
-		g.fillRect(0, 0, widht, height);
+		//g.setColor(Color.orange);
+		//g.fillRect(0, 0, widht, height);
 		
 		uiList.render(g);
 		

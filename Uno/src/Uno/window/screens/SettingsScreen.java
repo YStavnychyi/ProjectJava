@@ -24,8 +24,8 @@ public class SettingsScreen extends Screens{
 	}
 
 	public void render(Graphics g) {
-		g.setColor(Color.yellow);
-		g.fillRect(0, 0, 100, 100);
+		//g.setColor(Color.yellow);
+		//g.fillRect(0, 0, 100, 100);
 	}
 
 }

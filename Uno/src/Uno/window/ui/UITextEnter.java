@@ -10,13 +10,15 @@ public class UITextEnter extends UIComponent{
 
 	private String text;
 	private Font font;
+	private int textLimit;
 	private boolean isFocused;
 	
-	public UITextEnter(int x, int y, int widht, int height,Font font) {
+	public UITextEnter(int x, int y, int widht, int height,Font font,int textLimit) {
 		super(x, y, widht, height);
 		this.font=font;
 		this.isFocused=false;
-		this.text="aaaa";
+		this.text="";
+		this.textLimit=textLimit;
 
 	}
 
@@ -31,8 +33,16 @@ public class UITextEnter extends UIComponent{
 		g.setFont(font);
 		g.setColor(Color.cyan);
 		g.drawRect(x, y, width, height);
-		g.setColor(Color.white);
+		if(!isFocused)
+			g.setColor(Color.DARK_GRAY);
+		else
+			g.setColor(Color.GRAY);
+		g.fillRect(x+1, y+1, width-2, height-2);
 		
+		if(!isFocused)
+			g.setColor(Color.LIGHT_GRAY);
+		else
+			g.setColor(Color.white);
 		if(!text.isEmpty())
 			g.drawString(text,x,y+font.getSize());
 		
@@ -64,13 +74,17 @@ public class UITextEnter extends UIComponent{
 					text = text.substring(0,text.length()-1);
 				}
 			}
-			else
+			else if(text.length()<textLimit+1)
 			{
 					text+=e.getKeyChar();
-					System.out.println((int)e.getKeyChar());
 			}
 		}
 		
+	}
+	
+	public String getText()
+	{
+		return text;
 	}
 
 }

@@ -2,12 +2,14 @@ package Uno.game.handler;
 
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.image.BufferedImage;
 
 import Uno.game.GameManagement;
 import Uno.game.input.KeyboardMangaer;
 import Uno.game.input.MouseManager;
 import Uno.window.screens.Screens;
 import Uno.window.ui.manager.UIManagerS;
+import Uno.window.ImagesLoader;
 
 public class GameHandlerer {
 
@@ -58,5 +60,20 @@ public class GameHandlerer {
 	public void setCurrentScreen(Screens screen)
 	{
 		gameMan.setCurrentScreen(screen);
+	}
+	
+	public BufferedImage getImage(String path)
+	{
+		return ImagesLoader.loadImage(path);
+	}
+	
+	public BufferedImage getCardImage(int x,int y,int w,int h)
+	{
+		return ImagesLoader.cropOutImage(x, y, w, h, gameMan.getSheetHolder().getCardSheet());
+	}
+	
+	public BufferedImage getButtonImage(int x,int y,int w,int h)
+	{
+		return ImagesLoader.cropOutImage(x, y, w, h, gameMan.getSheetHolder().getButtonSheet());
 	}
 }

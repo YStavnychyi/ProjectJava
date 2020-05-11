@@ -17,4 +17,9 @@ public class ImagesLoader {
 		return null;
 		
 	}
+	
+	public static BufferedImage cropOutImage(int x,int y,int w,int h,BufferedImage sheet)
+	{
+		return sheet.getSubimage(x, y, w, h);
+	}
 }

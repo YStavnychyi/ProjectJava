@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
 
 
@@ -29,7 +30,8 @@ public class GameManagement implements Runnable{
 	public Screens connectionScreen;//okno do polczen
 	
 	private int HEIGHT,WIDHT;
-	
+	private BufferedImage backround;
+	private SheetHolder sheetHolder;
 	
 	public GameManagement()
 	{ 
@@ -42,6 +44,7 @@ public class GameManagement implements Runnable{
 	
 	private void setUp()
 	{
+		sheetHolder = new SheetHolder();
 		gameH = new GameHandlerer(this);
 		
 		window = new AppWindow(WIDHT,HEIGHT);//tworzone okno
@@ -51,10 +54,19 @@ public class GameManagement implements Runnable{
 		window.canvasRet().addMouseListener(mouseM);
 		window.canvasRet().addMouseMotionListener(mouseM);
 		
+		sheetHolder.setCardSheet("/CardSheet.png");
+		sheetHolder.setButtonSheet("/ButtonSheet.png");
+		backround = gameH.getImage("/Tlo.png");
+		
+		
 		menuScreen = new MenuScreen(gameH);//stworzenie okna na MENU
 		gameScreen = new GameScreen(gameH);//stworzenie okna na Gry
 		settingsScreen = new SettingsScreen(gameH);//stworzenie okna na ustawien
 		connectionScreen = new ConnectionScreen(gameH);//stworzenie okna do polaczen do gier
+		
+		
+		
+		
 		
 		setCurrentScreen(menuScreen);//ustawienie ekranu na Menu
 	}
@@ -100,7 +112,9 @@ public class GameManagement implements Runnable{
 		g = buffer.getDrawGraphics();
 		
 		g.clearRect(0, 0, WIDHT, HEIGHT);
-			
+		
+		g.drawImage(backround,0,0,WIDHT,HEIGHT,null);
+		
 		if(Screens.getScreen()!=null)
 			Screens.getScreen().render(g);
 		
@@ -111,7 +125,6 @@ public class GameManagement implements Runnable{
 	private void update()
 	{
 		//Update rzeczy kt�e si� dziej� (zmiana pozycji itp
-		keyM.update();
 		if(Screens.getScreen()!=null)
 			Screens.getScreen().update();
 	}
@@ -203,6 +216,11 @@ public class GameManagement implements Runnable{
 	public Screens getSettingsScreen()
 	{
 		return settingsScreen;
+	}
+	
+	public SheetHolder getSheetHolder()
+	{
+		return sheetHolder;
 	}
 	
 }
