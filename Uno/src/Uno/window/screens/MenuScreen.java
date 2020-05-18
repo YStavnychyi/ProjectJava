@@ -48,7 +48,7 @@ public class MenuScreen extends Screens{
 
 			@Override
 			public void ClickAction() {
-				
+				//gameH.getSoundManager().playButtonSound(); Error
 				gameH.setUIM(gameH.getGameM().getConnectionScreen().getUIList());
 				gameH.setCurrentScreen(gameH.getGameM().getConnectionScreen());
 				
@@ -59,7 +59,8 @@ public class MenuScreen extends Screens{
 
 			@Override
 			public void ClickAction() {
-				System.out.println("I am pressed");
+				gameH.setUIM(gameH.getGameM().getSettingsScreen().getUIList());
+				gameH.setCurrentScreen(gameH.getGameM().getSettingsScreen());
 				
 			}}));
 		
@@ -67,7 +68,7 @@ public class MenuScreen extends Screens{
 
 			@Override
 			public void ClickAction() {
-				System.out.println("I am pressed");
+				gameH.getGameM().stopThread();
 				
 			}}));
 	}
@@ -85,6 +86,8 @@ public class MenuScreen extends Screens{
 			
 			g.setColor(Color.orange);
 			g.drawString("Uno", widht/2-80, 100);
+			
+			
 			
 			uiList.render(g);
 	}

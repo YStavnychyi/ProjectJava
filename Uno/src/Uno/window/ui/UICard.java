@@ -20,7 +20,7 @@ public class UICard extends UIComponent{
 		this.cardImage = cardsI[card.numRet()];
 		this.clicker=clicker;
 		
-		paintCard();
+		//paintCard();
 
 	}
 	
@@ -81,7 +81,8 @@ public class UICard extends UIComponent{
 	}
 	@Override
 	public void ClickAction() {
-		clicker.ClickAction();
+		if(clicker!=null)
+			clicker.ClickAction();
 		
 	}
 	@Override
@@ -94,5 +95,20 @@ public class UICard extends UIComponent{
 	public void onKeyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public int getNum()
+	{
+		return card.numRet();
+	}
+	
+	public char getCol()
+	{
+		return card.colorRet();
+	}
+	
+	public void addClicker(UIClicker clicker)
+	{
+		this.clicker=clicker;
 	}
 }

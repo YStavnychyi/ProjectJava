@@ -20,8 +20,15 @@ public class UIManagerS {
 	
 	public void render(Graphics g)
 	{
+		try//not sure if good solution
+		{
 		for(UIComponent i: uiList)
 			i.render(g);
+		}
+		catch(java.util.ConcurrentModificationException e)
+		{
+			
+		}
 	}
 	
 	public void update()
@@ -39,8 +46,18 @@ public class UIManagerS {
 	
 	public void mouseClicked(MouseEvent arg0)
 	{
+		try//not sure if good solution
+		{
 		for(UIComponent i: uiList)
+		{
 			i.onMouseClicked(arg0);
+		}
+		}
+		catch(java.util.ConcurrentModificationException e)
+		{
+			
+		}
+			
 	}
 	
 	public void keyTyped(KeyEvent e)
@@ -63,7 +80,6 @@ public class UIManagerS {
 	{
 		return uiList.get(i);
 	}
-	
 	
 
 }

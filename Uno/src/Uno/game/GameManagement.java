@@ -11,6 +11,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JFrame;
+
 
 
 public class GameManagement implements Runnable{
@@ -33,6 +35,8 @@ public class GameManagement implements Runnable{
 	private BufferedImage backround;
 	private SheetHolder sheetHolder;
 	
+	private SoundManager soundManager;
+	
 	public GameManagement()
 	{ 
 		WIDHT=800;
@@ -45,6 +49,8 @@ public class GameManagement implements Runnable{
 	private void setUp()
 	{
 		sheetHolder = new SheetHolder();
+		soundManager = new SoundManager();
+		
 		gameH = new GameHandlerer(this);
 		
 		window = new AppWindow(WIDHT,HEIGHT);//tworzone okno
@@ -221,6 +227,16 @@ public class GameManagement implements Runnable{
 	public SheetHolder getSheetHolder()
 	{
 		return sheetHolder;
+	}
+	
+	public JFrame getFrame()
+	{
+		return window.windowRet();
+	}
+	
+	public SoundManager getSoundManager()
+	{
+		return soundManager;
 	}
 	
 }

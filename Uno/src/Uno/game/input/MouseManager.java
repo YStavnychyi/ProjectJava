@@ -55,7 +55,7 @@ public class MouseManager implements MouseListener,MouseMotionListener {
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+
 		
 	}
 

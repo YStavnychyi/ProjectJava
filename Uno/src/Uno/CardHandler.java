@@ -125,6 +125,8 @@ public class CardHandler {
 	}
 	
 	public Card getLast() { // otrzymac ostatnia karte
+		
+		if(cards.size()==0) return null;
 		return cards.get(cards.size() - 1);
 	}
 	
@@ -144,6 +146,7 @@ public class CardHandler {
 	}
 	
 	public void removeLast() {
-		cards.remove(cards.size() - 1);
+		if(cards.size()!=0)
+			cards.remove(cards.size() - 1);
 	}
 }
