@@ -109,7 +109,7 @@ public class GameScreen extends Screens{
 				else if(j==1) a='b';
 				else if(j==2) a='y';
 				else if(j==3) a='g';
-				cards[(i*4)+j] = tmpImg[(i*4)+j];
+				//cards[(i*4)+j] = tmpImg[(i*4)+j];
 			}
 				
 		}
