@@ -10,6 +10,7 @@ import Uno.game.input.MouseManager;
 import Uno.game.input.SoundManager;
 import Uno.window.screens.Screens;
 import Uno.window.ui.manager.UIManagerS;
+import Uno.window.CardLoader;
 import Uno.window.ImagesLoader;
 
 public class GameHandlerer {
@@ -81,5 +82,15 @@ public class GameHandlerer {
 	public SoundManager getSoundManager()
 	{
 		return gameMan.getSoundManager();
+	}
+	
+	public BufferedImage[] loadCards()
+	{
+		return CardLoader.laodCards(this);
+	}
+	
+	public BufferedImage[] loadRotatedCards(BufferedImage tmpImg)
+	{
+		return CardLoader.laodRotatedCards(tmpImg);
 	}
 }

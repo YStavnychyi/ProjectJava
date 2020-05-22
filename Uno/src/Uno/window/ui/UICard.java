@@ -1,6 +1,5 @@
 package Uno.window.ui;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -12,60 +11,25 @@ public class UICard extends UIComponent{
 	
 	private Card card;
 	private BufferedImage cardImage;
-	private UIClicker clicker;
+	private boolean invisible;
 	
-	public UICard(int x, int y, int widht, int height,Card card,BufferedImage cardsI[],UIClicker clicker) {
+	public UICard(int x, int y, int widht, int height,Card card,BufferedImage cardsI[]) {
 		super(x, y, widht, height);
 		this.card=card;
-		this.cardImage = cardsI[card.numRet()];
-		this.clicker=clicker;
-		
-		//paintCard();
+		this.cardImage = cardsI[getIndex(card.numRet(),card.colorRet())];
+		invisible=false;
 
 	}
 	
-	private void paintCard()
+	private int getIndex(int n,char c)
 	{
-		Color color = new Color(0, 0, 0);;
-		int colc = cardImage.getRGB(50, 20);
-		int getc;
-		
-		char tmp = card.colorRet();
-		switch(tmp)
-		{
-		case 'r':
-			color = new Color(255, 0, 0);
-			break;
-		
-		case 'b':
-			color = new Color(0, 0, 255);
-			break;
-			
-		case 'y':
-			color = new Color(255, 242, 0);
-			break;
-			
-		case 'g':
-			color = new Color(0, 255, 0);
-			break;
-			
-		default:
-			break;
-		}
-		
-		if(tmp == 'r');
-		for(int i=0;i<cardImage.getHeight();i++)
-		{
-			for(int j=0;j<cardImage.getWidth();j++)
-			{
-				getc = cardImage.getRGB(j, i);
-				if(getc == colc)
-					cardImage.setRGB(j, i, color.getRGB());
-			}
-		}
-			
-				
-		
+		if(n>=13)
+			return 52+(n-13);
+		int k=0;
+		if(c=='b') k=1;
+		else if(c=='y') k=2;
+		else if(c=='g') k=3;
+		return n*4+k;
 	}
 	
 	@Override
@@ -75,26 +39,21 @@ public class UICard extends UIComponent{
 	}
 	@Override
 	public void render(Graphics g) {
-
-		g.drawImage(cardImage,x,y,width,height, null);
+		if(!invisible)
+			g.drawImage(cardImage,x,y,width,height, null);
 		
 	}
 	@Override
 	public void ClickAction() {
-		if(clicker!=null)
-			clicker.ClickAction();
 		
 	}
 	@Override
 	public void onMouseClicked(MouseEvent arg0) {
-		if(hover&& isCorKey(arg0,MouseEvent.BUTTON1))
-			ClickAction();
+
 		
 	}
 	@Override
 	public void onKeyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	public int getNum()
@@ -107,8 +66,23 @@ public class UICard extends UIComponent{
 		return card.colorRet();
 	}
 	
-	public void addClicker(UIClicker clicker)
+	public int getX()
 	{
-		this.clicker=clicker;
+		return x;
+	}
+	
+	public int getY()
+	{
+		return y;
+	}
+	
+	public BufferedImage getImage()
+	{
+		return cardImage;
+	}
+	
+	public void setVisibility(boolean vis)
+	{
+		this.invisible = vis;
 	}
 }

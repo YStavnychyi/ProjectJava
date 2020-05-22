@@ -11,7 +11,7 @@ public class KeyboardMangaer implements KeyListener{
 	
 	//public boolean UP,DOWN,LEFT,RIGHT,ENTER;
 	private UIManagerS curUIM;
-
+	
 	
 	public KeyboardMangaer()
 	{
@@ -47,7 +47,6 @@ public class KeyboardMangaer implements KeyListener{
 			keys[tmp]=false;
 			pressed[tmp] = false;
 		}	*/
-		
 	}
 	
 	public void update()

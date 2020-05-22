@@ -2,7 +2,6 @@ package Uno.window.screens;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -12,6 +11,7 @@ import Uno.game.handler.GameHandlerer;
 import Uno.window.ui.UIButtonImage;
 import Uno.window.ui.UICard;
 import Uno.window.ui.UIClicker;
+import Uno.window.ui.UIHolder;
 import Uno.window.ui.UITakeCard;
 import Uno.window.ui.manager.UIManagerS;
 
@@ -24,6 +24,7 @@ public class GameScreen extends Screens{
 	private CardHandler cardH; //for testing
 	private UICard centerCard;
 	private ArrayList<UICard> cardArray;
+	private UIHolder uiHolder;
 	
 	
 	String p1="Player1",p2="Player2",p3="Player3",p4="Player4";
@@ -36,9 +37,11 @@ public class GameScreen extends Screens{
 		
 		cardH = new CardHandler(); //for testing
 		
-		cards = new BufferedImage[16];
+		cards = new BufferedImage[55];
 		cRotated = new BufferedImage[3];
-		loadCards();
+
+		cards = gameH.loadCards();
+		cRotated = gameH.loadRotatedCards(cards[54]);
 		
 		back=new BufferedImage[2];
 		back[0] = gameH.getButtonImage(500, 200, 50, 50);
@@ -52,72 +55,10 @@ public class GameScreen extends Screens{
 		
 		cardH.shuffleDeck();
 	}
-	
-	private BufferedImage RotateNCards(BufferedImage image,int timesRotation)
-	{
-		int wIM = image.getWidth();
-		int hIM = image.getHeight();
-		
-		if(timesRotation%2==1)
-		{
-			int tmp = wIM;
-			wIM = hIM;
-			hIM = tmp;
-		}
-		
-		BufferedImage newImage = new BufferedImage(wIM,hIM,image.getType());
-		
-		Graphics2D g2 = newImage.createGraphics();
-		if(timesRotation%4==3)
-			g2.translate((hIM - wIM) / 2, (hIM - wIM) / 2);
-		else if(timesRotation%4==1)
-			g2.translate((wIM - hIM) / 2, (wIM - hIM) / 2);
-		g2.rotate(Math.toRadians(timesRotation*90),wIM/2,hIM/2);
-		g2.drawRenderedImage(image,null);
-		
-		return newImage;
-		
-	}
-	
-	private void loadCards()
-	{
-		int w,h;
-		w=gameH.getGameM().getSheetHolder().getCardSheet().getWidth()/8;
-		h=gameH.getGameM().getSheetHolder().getCardSheet().getHeight()/2;
-		
-		BufferedImage tmpImg[] = new BufferedImage[16];
-		
-		int y=0;
-		
-		for(int i=0;i<16;i++)
-		{
-			if(i==8)
-			{
-				y=h;
-			}
-			tmpImg[i] = gameH.getCardImage((i%8)*w, y, w, h);
-		}
-		for(int i=0;i<3;i++)
-			cRotated[i]=RotateNCards(tmpImg[15],i+1);
-		
-		for(int i=0;i<52;i++)
-		{
-			for(int j=0;j<4;j++)
-			{
-				char a = 'a';
-				if(j==0) a='r';
-				else if(j==1) a='b';
-				else if(j==2) a='y';
-				else if(j==3) a='g';
-				//cards[(i*4)+j] = tmpImg[(i*4)+j];
-			}
-				
-		}
-	}
 
 	private void addComponents()
 	{
-		uiList.addComponent( new UITakeCard(40,40,cWidth,cHeight,cards[15],true, new UIClicker()
+		uiList.addComponent( new UITakeCard(40,40,cWidth,cHeight,cards[54],true, new UIClicker()
 				{
 					@Override
 					public void ClickAction() {
@@ -142,9 +83,13 @@ public class GameScreen extends Screens{
 				
 			}} ));
 		
-		centerCard = new UICard(widht/2-(cWidth/2),height/2-(cHeight/2),cWidth,cHeight,new Card(0,'r'),cards,null);
+		centerCard = new UICard(widht/2-(cWidth/2),height/2-(cHeight/2),cWidth,cHeight,new Card(0,'r'),cards);
 		
 		uiList.addComponent(centerCard);
+		
+		uiHolder = new UIHolder(0,0,0,0,cardArray);
+		
+		uiList.addComponent(uiHolder);
 	}
 
 	public void update() {
@@ -169,6 +114,8 @@ public class GameScreen extends Screens{
 		drawPacketCards(g,250,height-10,cHeight,cWidth,pc4,2);
 		
 		uiList.render(g);
+		
+		drawOnTop(g);
 		
 	}
 	
@@ -199,7 +146,7 @@ public class GameScreen extends Screens{
 	private void exchangeCenter(Card card)
 	{
 		uiList.removeComponent(centerCard);
-		centerCard = new UICard(widht/2-(cWidth/2),height/2-(cHeight/2),cWidth,cHeight,card,cards,null);
+		centerCard = new UICard(widht/2-(cWidth/2),height/2-(cHeight/2),cWidth,cHeight,card,cards);
 		uiList.addComponent(centerCard);
 	}
 	
@@ -209,9 +156,9 @@ public class GameScreen extends Screens{
 		card = cardH.getLast();
 		if(card!=null)
 		{
-			System.out.println(card.colorRet());
 			cardH.removeLast();
 			addCardtoUI(card);
+			uiHolder.changeAmount(1);
 
 		}
 		rearangeCards();
@@ -223,15 +170,7 @@ public class GameScreen extends Screens{
 		int hD = height - 140;
 		
 		
-		cardArray.add(new UICard(wD,hD,cWidth,cHeight,card,cards,new UIClicker() {
-			@Override
-			public void ClickAction() {
-				if(card.numRet() == centerCard.getNum() || card.colorRet() == centerCard.getCol() || card.colorRet()=='a')
-				{
-					centerCard = new UICard(widht/2-(cWidth/2),height/2-(cHeight/2),cWidth,cHeight,card,cards,null);
-				}
-				
-			}}));
+		cardArray.add(new UICard(wD,hD,cWidth,cHeight,card,cards));
 		uiList.addComponent(cardArray.get(cardArray.size()-1));
 	}
 	
@@ -239,66 +178,31 @@ public class GameScreen extends Screens{
 	{
 		int count = cardArray.size();
 		
+		int size = (count/10) + 1;
+		
 		int position;
-		int j=0;
+		int j=-(count/2);
 		
 		for(int i=0;i<count;i++)
 		{
-			int tmp=-1;
-			if(i%2==1)
-			{
-				tmp=1;
-				j++;
-			}
-				
-			position = widht/2-30 + (j*cWidth)*tmp;
+			j++;	
+			position = ((widht/2-30)-(cWidth/2)) + (j*(cWidth/size));
 			cardArray.get(i).updatePosition(position, height-180);
 		}
 	}
 	
-	
-	private BufferedImage paintOver(Card card,BufferedImage cardImage,int colc)
+	private void drawOnTop(Graphics g)
 	{
-		Color color = new Color(0, 0, 0);;
-		//int colc = cardImage.getRGB(50, 20);
-		int getc;
-		
-		char tmp = card.colorRet();
-		switch(tmp)
+		if(!cardArray.isEmpty())
 		{
-		case 'r':
-			color = new Color(255, 0, 0);
-			break;
-		
-		case 'b':
-			color = new Color(0, 0, 255);
-			break;
-			
-		case 'y':
-			color = new Color(255, 242, 0);
-			break;
-			
-		case 'g':
-			color = new Color(0, 255, 0);
-			break;
-			
-		default:
-			break;
+			int i = uiHolder.getPosition();
+			BufferedImage tmp = cardArray.get(i).getImage();
+			int xx = cardArray.get(i).getX();
+			int yy = cardArray.get(i).getY();
+			g.drawImage(tmp,xx,yy-40,cWidth,cHeight,null);
 		}
 		
-		if(tmp == 'r');
-		for(int i=0;i<cardImage.getHeight();i++)
-		{
-			for(int j=0;j<cardImage.getWidth();j++)
-			{
-				getc = cardImage.getRGB(j, i);
-				if(getc == colc)
-					cardImage.setRGB(j, i, color.getRGB());
-			}
-		}
-		return cardImage;
 	}
-
 	
 }
 
