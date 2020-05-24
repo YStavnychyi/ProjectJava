@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 
 public class AppWindow{
 	private JFrame window;
-	private Canvas canvas;
+	private Canvas canvas; 
 	
 	
 	public AppWindow(int widht,int height)
