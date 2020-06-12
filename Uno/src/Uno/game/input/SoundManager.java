@@ -30,6 +30,7 @@ public class SoundManager {
 		LoadClip(buttonSound,"/ButtonSound.wav");
 		LoadClip(unoSound,"/UnoSound.wav");
 		LoadClip(backroundMusic,"/ButtonSound.wav");
+	
 		
 	}
 	

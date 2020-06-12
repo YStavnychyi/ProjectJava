@@ -66,7 +66,7 @@ public class GameManagement implements Runnable{
 		
 		
 		menuScreen = new MenuScreen(gameH);//stworzenie okna na MENU
-		gameScreen = new GameScreen(gameH);//stworzenie okna na Gry
+	//	gameScreen = new GameScreen(gameH);//stworzenie okna na Gry
 		settingsScreen = new SettingsScreen(gameH);//stworzenie okna na ustawien
 		connectionScreen = new ConnectionScreen(gameH);//stworzenie okna do polaczen do gier
 		
@@ -237,6 +237,11 @@ public class GameManagement implements Runnable{
 	public SoundManager getSoundManager()
 	{
 		return soundManager;
+	}
+	
+	public void newGame()
+	{
+		gameScreen = new GameScreen(gameH);
 	}
 	
 }

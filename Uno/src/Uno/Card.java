@@ -54,5 +54,20 @@ public class Card implements Cloneable{
 	public Object clone() throws CloneNotSupportedException
 	{
 		return super.clone();
-	} 
+	}
+	
+	public String TransalteToString()
+	{
+		return Integer.toString(cardNumber) + "_" + cardColor;
+	}
+	
+	public static Card getCardfromString(String cardS)
+	{
+		int i = cardS.indexOf("_");
+		if(i==-1)
+			return null;
+		int num = Integer.parseInt(cardS.substring(0, i));
+		char col = cardS.charAt(cardS.length()-1);
+		return new Card(num,col);
+	}
 }

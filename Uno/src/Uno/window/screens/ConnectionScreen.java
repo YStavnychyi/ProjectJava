@@ -3,7 +3,11 @@ package Uno.window.screens;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Window;
 import java.awt.image.BufferedImage;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import Uno.game.handler.GameHandlerer;
 import Uno.window.ui.UIButton;
@@ -18,6 +22,8 @@ public class ConnectionScreen extends Screens{
 	
 	private BufferedImage host[],connect[];
 	private UITextEnter textIP;
+	
+	private JLabel label;
 	
 	public ConnectionScreen(GameHandlerer gameH) {
 		super(gameH);
@@ -52,8 +58,29 @@ public class ConnectionScreen extends Screens{
 
 			@Override
 			public void ClickAction() {
-				gameH.setUIM(gameH.getGameM().getGameScreen().getUIList());
-				gameH.setCurrentScreen(gameH.getGameM().getGameScreen());
+				gameH.CreateServer();
+				gameH.CreateClient("localhost");
+		
+				
+				int n=create_Dialog(true);
+				
+				if(n==0)
+				{
+					
+					gameH.startGameServer();
+					gameH.setUIM(gameH.getGameM().getGameScreen().getUIList());
+					gameH.setCurrentScreen(gameH.getGameM().getGameScreen());
+					
+				
+				}
+				else
+				{
+					gameH.stopClient();
+					gameH.stopServer();
+					
+					
+				}
+				
 				
 			}}));
 		
@@ -62,7 +89,15 @@ public class ConnectionScreen extends Screens{
 			@Override
 			public void ClickAction() {
 
-				System.out.println("Conect");
+				String ip = textIP.getText();
+				
+				gameH.CreateClient(ip);
+				
+				int n=create_Dialog(false);
+				if(n==0)
+				{
+					gameH.stopClient();
+				}
 			}}));
 		
 		
@@ -81,6 +116,13 @@ public class ConnectionScreen extends Screens{
 	@Override
 	public void update() {
 		
+		if(label!=null)
+			label.setText("<html>ConnectedPlayers:<br/>>"
+					+gameH.getClientNameAt(0)+"<br/>>"
+					+gameH.getClientNameAt(1)+"<br/>>"
+					+gameH.getClientNameAt(2)+"<br/>>"
+					+gameH.getClientNameAt(3)+"<br/> Game Lobby</html>");
+		
 		uiList.update();
 	}
 
@@ -95,5 +137,55 @@ public class ConnectionScreen extends Screens{
 		uiList.render(g);
 		
 	}
+	
+	private void create_Label()
+	{
+		label = new JLabel("<html>ConnectedPlayers:<br/>>"
+				+gameH.getClientNameAt(0)+"<br/>>"
+				+gameH.getClientNameAt(1)+"<br/>>"
+				+gameH.getClientNameAt(2)+"<br/>>"
+				+gameH.getClientNameAt(3)+"<br/> Game Lobby</html>");
+	}
+	
+	private int create_Dialog(boolean isHost)
+	{
+		create_Label();
+		
+		Object options[];
+		if(isHost)
+			{
+				options = new Object[2];
+				options[0] = "Start";
+				options[1] = "Cancel";
+			}
+		else
+		{
+			options = new Object[1];
+			options[0]= "Disconnect";
+		}
+			
+		
+		int n=JOptionPane.showOptionDialog(gameH.getGameM().getFrame(), label
+				, "Go back to menu",
+				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, 
+				null, options, options[options.length-1]);
+		
+		label= null;
+		
+		return n;
+	}
 
+	public void disposeOptionDialog()
+	{
+		Window win = SwingUtilities.getWindowAncestor(label);
+		if(win!=null)
+			win.dispose();
+		
+	}
+	
+	public void startGameForClient()
+	{
+		gameH.setUIM(gameH.getGameM().getGameScreen().getUIList());
+		gameH.setCurrentScreen(gameH.getGameM().getGameScreen());
+	}
 }

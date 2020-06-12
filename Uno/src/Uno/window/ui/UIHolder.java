@@ -5,15 +5,19 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import Uno.window.screens.GameScreen;
+
 public class UIHolder extends UIComponent{
 
 	private int position = 0;
 	private int maxVal = 0;
 	private ArrayList<UICard> cardArray;
+	private GameScreen gameS;
 	
-	public UIHolder(int x, int y, int widht, int height, ArrayList<UICard> cardArray) {
+	public UIHolder(int x, int y, int widht, int height, ArrayList<UICard> cardArray, GameScreen gameS) {
 		super(x, y, widht, height);
 		this.cardArray = cardArray;
+		this.gameS = gameS;
 	}
 
 	@Override
@@ -45,12 +49,29 @@ public class UIHolder extends UIComponent{
 				position++;
 				cardArray.get(position).setVisibility(true);
 			}
+		if((int)e.getKeyChar() == KeyEvent.VK_ENTER)
+		{
+			boolean check = gameS.commitAction();
+			if(check)
+			{
+				System.out.println("XXXX Tried to send a card");
+			}
+			else
+			{
+				System.out.println("XXXX Invalid move");
+			}
+		}
 				
 	}
 
 	public void changeAmount(int val)
 	{
 		maxVal += val;
+	}
+	
+	public void changeToMax(int val)
+	{
+		maxVal = val;
 	}
 	
 	public int getPosition()
