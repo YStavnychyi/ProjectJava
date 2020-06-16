@@ -322,8 +322,23 @@ public class GameServer extends Thread{
 				nP=i;
 			}	
 		}
-		nP++;
-		nP=nP%clientList.size();
+		if(isReverse==false)
+		{
+			nP++;
+			nP=nP%clientList.size();
+		}
+		else
+		{
+			nP--;
+			if(nP<0)
+				nP = clientList.size()-1;
+		}
+		if(clientList.get(nP).getIsFinished()==true)
+		{
+			nextPDrawAmount(clientList.get(nP),amount);
+			return;
+		}
+		
 		for(int i=0;i<amount;i++)
 			sendCardToClient(clientList.get(nP),false);
 	}

@@ -118,17 +118,6 @@ public class GameClient extends Thread {
 			}
 	}
 	
-	/*
-	public String SendMessage(String msg)
-	{
-		try {
-            out.println(msg);
-            return in.readLine();
-        } catch (Exception e) {
-            return null;
-        }
-	}*/
-	
 	public void SendMessageToServer(String msg)
 	{
 		out.println(msg);

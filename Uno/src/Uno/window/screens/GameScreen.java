@@ -30,13 +30,13 @@ public class GameScreen extends Screens{
 	String p2="Player2",p3="Player3",p4="Player4";
 	int pc2=5,pc3=1,pc4=20;
 	
-	private int finishedCounter;
+	private int finishedPlace;
 	
 	private int cWidth =70,cHeight = 100;
 	
 	public GameScreen(GameHandlerer gameH) {
 		super(gameH);
-		
+		finishedPlace=-1;
 		cards = new BufferedImage[55];
 		cRotated = new BufferedImage[3];
 
@@ -142,7 +142,7 @@ public class GameScreen extends Screens{
 		if(gameH.isClientTurn())
 			g.drawString("Your Turn", widht/2+95, height-60);
 		if(gameH.getIsClientFinished())
-			g.drawString("You have finished:"+finishedCounter, widht/2+95, height-60);
+			g.drawString("You have finished:"+finishedPlace, widht/2+95, height-60);
 		
 		uiList.render(g);
 		
@@ -184,6 +184,8 @@ public class GameScreen extends Screens{
 			uiList.removeComponent(centerCard);
 			centerCard = new UICard(widht/2-(cWidth/2),height/2-(cHeight/2),cWidth,cHeight,card,cards);
 			uiList.addComponent(centerCard);
+			checkIfFinished();
+			endGameMessage();
 		}
 		
 	}
@@ -282,24 +284,31 @@ public class GameScreen extends Screens{
 			Card tmpCard = dealP1.getCard(i);
 			addCardtoUI(tmpCard);
 		}
-		checkIfFinished();
 		uiHolder.changeToMax(sizeOfDeck);
 		rearangeCards();
 		}
 	}
 	
-	private void checkIfFinished()
+	private int countFinished()
 	{
-		if(dealP1.getSize()==0)
-		{
-			finishedCounter=1;
-			for(int i=1;i<4;i++)
+		int finishedCounter=0;
+		for(int i=1;i<4;i++)
 			{
 				if(gameH.getPDeckSize(i)==0)
 				{
 					finishedCounter++;
 				}
 			}
+		if(dealP1.getSize()==0)
+			finishedCounter++;
+		return finishedCounter;
+	}
+	
+	private void checkIfFinished()
+	{
+		if(dealP1.getSize()==0 && finishedPlace==-1)
+		{	
+			finishedPlace = countFinished();
 			gameH.setClientFinished();
 		}
 	}
@@ -328,6 +337,35 @@ public class GameScreen extends Screens{
 		p4 = tmpStr[beg];
 			
 		
+	}
+	
+	private int getAmountOfPlayers()
+	{
+		int count=1;
+		if(pc2!=-1)
+			count++;
+		if(pc3!=-1)
+			count++;
+		if(pc4!=-1)
+			count++;
+		return count;
+	}
+	
+	private void endGameMessage()
+	{
+		if((getAmountOfPlayers()-1==countFinished()))
+		{
+			if(finishedPlace==-1)
+			{
+				JOptionPane.showMessageDialog(gameH.getGameM().getFrame(),
+				    "Finished, you have lost.");
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(gameH.getGameM().getFrame(),
+					    "Finished, you have finished:"+finishedPlace);
+			}
+		}
 	}
 }
 
